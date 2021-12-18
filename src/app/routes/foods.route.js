@@ -1,6 +1,11 @@
+const express = require('express')
+const authMiddleware = require('../middlewares/auth');
 const FoodController = require('./app/controllers/FoodController');
 
+const foodRouter = express.Router()
 
 // Creating a food for the restaurant menu and listing all the menu of the restaurant
-routes.post('/foods/:restaurant_id', FoodController.store);
-routes.get('/foods/:restaurant_id', FoodController.index);
+foodRouter.post('/foods/:restaurant_id', authMiddleware, FoodController.store);
+foodRouter.get('/foods/:restaurant_id', authMiddleware, FoodController.index);
+
+export { foodRouter }

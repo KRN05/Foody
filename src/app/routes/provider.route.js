@@ -1,4 +1,10 @@
+const express = require('express')
+const authMiddleware = require('../middlewares/auth');
 const ProviderController = require('./app/controllers/ProviderController');
 
-routes.get('/providers', ProviderController.index);
-routes.post('/providers', ProviderController.store);
+const providerRouter = express.Router()
+
+providerRouter.post('/providers', authMiddleware, ProviderController.store);
+providerRouter.get('/providers', ProviderController.index);
+
+export { providerRouter }

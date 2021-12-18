@@ -1,13 +1,12 @@
+const express = require('express')
+const authMiddleware = require('../middlewares/auth');
 const FileController = require('./app/controllers/FileController');
-const AuthMiddleware = require('./app/middlewares/auth');
 const multerUpload = require('./config/multer');
 
-// Posting avatar to S3 Bucket
-routes.post('/files/', multerUpload, FileController.store);
+const fileRouter = express.Router()
 
-/* Starting to use the auth middleware */
-routes.use(AuthMiddleware);
+fileRouter.post('/files/', multerUpload, FileController.store);
+fileRouter.get('/files/', authMiddleware, FileController.index);
+fileRouter.get('/files/:file_id', authMiddleware, FileController.show);
 
-// Getting all the avatars and an specific avatar
-routes.get('/files/', FileController.index);
-routes.get('/files/:file_id', FileController.show);
+export { fileRouter }

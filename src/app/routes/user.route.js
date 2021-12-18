@@ -1,4 +1,10 @@
+const express = require('express')
+const authMiddleware = require('../middlewares/auth');
 const UserController = require('./app/controllers/UserController');
 
-routes.post('/users', UserController.store);
-routes.put('/users', UserController.update);
+const usersController = express.Router
+
+usersController.post('/users', UserController.store);
+usersController.put('/users', authMiddleware, UserController.update);
+
+export {usersController}
